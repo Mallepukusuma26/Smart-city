@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<html lang="en" class="admin-portal">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Smart City - AI & Machine Learning Center</title>
+  <link rel="stylesheet" href="/css/main.css">
+  <link rel="stylesheet" href="/css/admin.css">
+  <link rel="stylesheet" href="/css/components.css">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+</head>
+<body>
+  <div class="app-container">
+    <aside class="sidebar">
+      <div class="brand-header">
+        <div class="brand-logo" style="background: linear-gradient(135deg, #38BDF8, #A855F7);"><i class="fa-solid fa-crown"></i></div>
+        <div class="brand-title">Smart City<br><span style="font-size: 0.75rem; color: #38BDF8;">Admin Master</span></div>
+      </div>
+      <ul class="nav-menu">
+        <li class="nav-item"><a href="/admin/dashboard.html"><i class="fa-solid fa-chart-pie"></i> Master Dashboard</a></li>
+        <li class="nav-item"><a href="/admin/users.html"><i class="fa-solid fa-users-gear"></i> User Management</a></li>
+        <li class="nav-item"><a href="/admin/departments.html"><i class="fa-solid fa-building-user"></i> Departments</a></li>
+        <li class="nav-item active"><a href="/admin/ai.html"><i class="fa-solid fa-brain"></i> AI & ML Center</a></li>
+        <li class="nav-item"><a href="/admin/reports.html"><i class="fa-solid fa-file-pdf"></i> System Reports</a></li>
+        <li class="nav-item"><a href="/admin/audit_logs.html"><i class="fa-solid fa-shield-cat"></i> Audit Logs</a></li>
+        <li class="nav-item" style="margin-top: auto;"><a href="#" onclick="handleLogout()"><i class="fa-solid fa-right-from-bracket"></i> Logout</a></li>
+      </ul>
+    </aside>
+
+    <main class="main-content">
+      <header class="top-navbar">
+        <div style="font-weight: 700; font-size: 1.2rem;">AI & Machine Learning Management Center</div>
+        <span class="badge badge-success"><i class="fa-solid fa-server"></i> 10 Local Scikit-Learn Models Operational</span>
+      </header>
+
+      <div class="page-body">
+        <div class="data-table-container">
+          <div style="padding: 1.25rem 1.5rem; border-bottom: 1px solid var(--border-card); font-weight: 700; font-size: 1.1rem;">
+            Trained ML Model Artifacts & Performance Scores
+          </div>
+          <table class="data-table">
+            <thead>
+              <tr>
+                <th>Model Name</th>
+                <th>Target Variable</th>
+                <th>Algorithm Type</th>
+                <th>Accuracy / R² Score</th>
+                <th>MAE</th>
+                <th>Status</th>
+                <th>Action</th>
+              </tr>
+            </thead>
+            <tbody id="mlModelsTableBody">
+              <tr><td colspan="7" style="text-align: center;">Loading trained models...</td></tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </main>
+  </div>
+  <script src="/js/api.js"></script>
+  <script src="/js/auth.js"></script>
+  <script>
+    document.addEventListener('DOMContentLoaded', async () => {
+      const res = await API.get('/admin/ai');
+      const tbody = document.getElementById('mlModelsTableBody');
+      if (res.ml_models && res.ml_models.length > 0) {
+        tbody.innerHTML = res.ml_models.map(m => `
+          <tr>
+            <td><strong>${m.display_name}</strong><br><code style="font-size: 0.75rem; color: var(--color-slate-400);">${m.model_name}</code></td>
+            <td>${m.target_variable}</td>
+            <td><span class="badge badge-info">${m.algorithm_type}</span></td>
+            <td><strong>${m.accuracy_score ? (m.accuracy_score * 100).toFixed(2) + '%' : (m.r2_or_f1_score ? m.r2_or_f1_score.toFixed(4) : 'N/A')}</strong></td>
+            <td>${m.mae ? m.mae.toFixed(4) : 'N/A'}</td>
+            <td><span class="badge badge-success">${m.status}</span></td>
+            <td><button onclick="runAiInferenceTest('${m.model_name.replace('_model', '')}')" class="btn btn-primary" style="padding: 0.25rem 0.5rem; font-size: 0.75rem;">Run Test</button></td>
+          </tr>
+        `).join('');
+      } else {
+        tbody.innerHTML = '<tr><td colspan="7" style="text-align: center;">No models found in registry. Running automatically...</td></tr>';
+      }
+    });
+  </script>
+</body>
+</html>

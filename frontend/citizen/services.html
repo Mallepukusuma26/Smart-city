@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html lang="en" class="citizen-portal">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Smart City - Municipal Services Overview</title>
+  <link rel="stylesheet" href="/css/main.css">
+  <link rel="stylesheet" href="/css/citizen.css">
+  <link rel="stylesheet" href="/css/components.css">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+</head>
+<body>
+  <div class="app-container">
+    <aside class="sidebar">
+      <div class="brand-header">
+        <div class="brand-logo" style="background: linear-gradient(135deg, #10B981, #06B6D4);"><i class="fa-solid fa-tree-city"></i></div>
+        <div class="brand-title">Smart City<br><span style="font-size: 0.75rem; color: #10B981;">Citizen Portal</span></div>
+      </div>
+      <ul class="nav-menu">
+        <li class="nav-item"><a href="/citizen/dashboard.html"><i class="fa-solid fa-house"></i> Dashboard</a></li>
+        <li class="nav-item"><a href="/citizen/complaints.html"><i class="fa-solid fa-clipboard-list"></i> My Complaints</a></li>
+        <li class="nav-item active"><a href="/citizen/services.html"><i class="fa-solid fa-city"></i> City Services</a></li>
+        <li class="nav-item"><a href="/citizen/notifications.html"><i class="fa-solid fa-bell"></i> Notifications</a></li>
+        <li class="nav-item"><a href="/citizen/alerts.html"><i class="fa-solid fa-triangle-exclamation"></i> City Alerts</a></li>
+        <li class="nav-item" style="margin-top: auto;"><a href="#" onclick="handleLogout()"><i class="fa-solid fa-right-from-bracket"></i> Logout</a></li>
+      </ul>
+    </aside>
+
+    <main class="main-content">
+      <header class="top-navbar">
+        <div style="font-weight: 700; font-size: 1.2rem;">Live Municipal Services Status</div>
+      </header>
+
+      <div class="page-body">
+        <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 1.5rem;">
+          <!-- Traffic Service Card -->
+          <div class="kpi-card">
+            <h3 style="color: #38BDF8; font-size: 1.1rem; margin-bottom: 0.5rem;"><i class="fa-solid fa-car"></i> Traffic & Road Signals</h3>
+            <p style="font-size: 0.85rem; color: var(--color-slate-300);">Real-time speed monitoring & signal optimization.</p>
+            <div id="trafficStatusBox" style="margin-top: 1rem; font-weight: 700; font-size: 1.25rem;">Loading...</div>
+          </div>
+
+          <!-- Waste Service Card -->
+          <div class="kpi-card">
+            <h3 style="color: #10B981; font-size: 1.1rem; margin-bottom: 0.5rem;"><i class="fa-solid fa-trash"></i> Sanitation & Waste Bins</h3>
+            <p style="font-size: 0.85rem; color: var(--color-slate-300);">Bin fill levels and collection schedules.</p>
+            <div id="wasteStatusBox" style="margin-top: 1rem; font-weight: 700; font-size: 1.25rem;">Loading...</div>
+          </div>
+
+          <!-- Water Service Card -->
+          <div class="kpi-card">
+            <h3 style="color: #3B82F6; font-size: 1.1rem; margin-bottom: 0.5rem;"><i class="fa-solid fa-droplet"></i> Municipal Water Supply</h3>
+            <p style="font-size: 0.85rem; color: var(--color-slate-300);">Reservoir storage & pipeline purity scores.</p>
+            <div id="waterStatusBox" style="margin-top: 1rem; font-weight: 700; font-size: 1.25rem;">Loading...</div>
+          </div>
+
+          <!-- Pollution AQI Card -->
+          <div class="kpi-card">
+            <h3 style="color: #A855F7; font-size: 1.1rem; margin-bottom: 0.5rem;"><i class="fa-solid fa-wind"></i> Environmental AQI</h3>
+            <p style="font-size: 0.85rem; color: var(--color-slate-300);">City-wide Air Quality Index monitoring.</p>
+            <div id="aqiStatusBox" style="margin-top: 1rem; font-weight: 700; font-size: 1.25rem;">Loading...</div>
+          </div>
+        </div>
+      </div>
+    </main>
+  </div>
+  <script src="/js/api.js"></script>
+  <script src="/js/auth.js"></script>
+  <script>
+    document.addEventListener('DOMContentLoaded', async () => {
+      const res = await API.get('/citizen/dashboard');
+      if (res.city_status) {
+        document.getElementById('trafficStatusBox').textContent = `Avg Speed: ${res.city_status.traffic.average_city_speed_kmh} km/h`;
+        document.getElementById('wasteStatusBox').textContent = `Avg Fill Level: ${res.city_status.waste.average_fill_level_percent}%`;
+        document.getElementById('waterStatusBox').textContent = `City Storage: ${res.city_status.water.city_storage_percentage}%`;
+        document.getElementById('aqiStatusBox').textContent = `Avg AQI: ${res.city_status.pollution.average_city_aqi}`;
+      }
+    });
+  </script>
+</body>
+</html>

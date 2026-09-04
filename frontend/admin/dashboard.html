@@ -1,0 +1,110 @@
+<!DOCTYPE html>
+<html lang="en" class="admin-portal">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Smart City - Admin Master Control Center</title>
+  <link rel="stylesheet" href="/css/main.css">
+  <link rel="stylesheet" href="/css/admin.css">
+  <link rel="stylesheet" href="/css/components.css">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+</head>
+<body>
+  <div class="app-container">
+    <!-- Sidebar Navigation -->
+    <aside class="sidebar">
+      <div class="brand-header">
+        <div class="brand-logo" style="background: linear-gradient(135deg, #38BDF8, #A855F7);"><i class="fa-solid fa-crown"></i></div>
+        <div class="brand-title">Smart City<br><span style="font-size: 0.75rem; color: #38BDF8; text-transform: uppercase;">Admin Master</span></div>
+      </div>
+      <ul class="nav-menu">
+        <li class="nav-item active"><a href="/admin/dashboard.html"><i class="fa-solid fa-chart-pie"></i> Master Dashboard</a></li>
+        <li class="nav-item"><a href="/admin/users.html"><i class="fa-solid fa-users-gear"></i> User Management</a></li>
+        <li class="nav-item"><a href="/admin/departments.html"><i class="fa-solid fa-building-user"></i> Departments</a></li>
+        <li class="nav-item"><a href="/admin/ai.html"><i class="fa-solid fa-brain"></i> AI & ML Center</a></li>
+        <li class="nav-item"><a href="/admin/emergencies.html"><i class="fa-solid fa-truck-medical"></i> Emergencies</a></li>
+        <li class="nav-item"><a href="/admin/reports.html"><i class="fa-solid fa-file-pdf"></i> System Reports</a></li>
+        <li class="nav-item"><a href="/admin/audit_logs.html"><i class="fa-solid fa-shield-cat"></i> Audit Logs</a></li>
+        <li class="nav-item" style="margin-top: auto;"><a href="#" onclick="handleLogout()"><i class="fa-solid fa-right-from-bracket"></i> Logout</a></li>
+      </ul>
+    </aside>
+
+    <!-- Main Content Area -->
+    <main class="main-content">
+      <header class="top-navbar">
+        <div style="font-weight: 700; font-size: 1.2rem;">Master Operations Control Center</div>
+        <div style="display: flex; align-items: center; gap: 1rem;">
+          <span class="badge badge-info"><i class="fa-solid fa-user-shield"></i> System Admin</span>
+          <span style="font-weight: 600;">Chief Administrator</span>
+        </div>
+      </header>
+
+      <div class="page-body">
+        <!-- KPI Cards Grid -->
+        <div class="admin-kpi-grid">
+          <div class="kpi-card" style="border-top: 4px solid #38BDF8;">
+            <div class="kpi-label">Total System Users</div>
+            <div class="kpi-value" id="totalUsersCount">0</div>
+            <div style="font-size: 0.8rem; color: var(--color-slate-400);">Citizens: <span id="totalCitizensCount">0</span> | Officers: <span id="totalOfficersCount">0</span></div>
+          </div>
+          <div class="kpi-card" style="border-top: 4px solid #10B981;">
+            <div class="kpi-label">City Resolution Rate</div>
+            <div class="kpi-value" id="resolutionRateValue">0%</div>
+            <div style="font-size: 0.8rem; color: var(--color-slate-400);">Total Complaints: <span id="totalComplaintsCount">0</span></div>
+          </div>
+          <div class="kpi-card" style="border-top: 4px solid #F59E0B;">
+            <div class="kpi-label">Active Emergencies</div>
+            <div class="kpi-value" id="activeEmergenciesCount">0</div>
+            <div style="font-size: 0.8rem; color: var(--color-slate-400);">Active Alerts: <span id="activeAlertsCount">0</span></div>
+          </div>
+          <div class="kpi-card" style="border-top: 4px solid #A855F7;">
+            <div class="kpi-label">Local ML Models</div>
+            <div class="kpi-value" id="trainedModelsCount">10</div>
+            <div style="font-size: 0.8rem; color: #A855F7;">All 10 Models Active</div>
+          </div>
+        </div>
+
+        <!-- Quick AI Prediction Testing Panel -->
+        <div class="data-table-container" style="padding: 1.5rem; margin-bottom: 2rem; background: linear-gradient(135deg, rgba(30, 41, 59, 0.8), rgba(88, 28, 135, 0.3)); border-color: rgba(168, 85, 247, 0.3);">
+          <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 1rem;">
+            <h3 style="font-size: 1.1rem; font-weight: 700; color: #F3E8FF;"><i class="fa-solid fa-microchip" style="color: #C084FC;"></i> Local AI / Machine Learning Live Testing</h3>
+            <span class="badge badge-success">Zero API Keys Required</span>
+          </div>
+          <div style="display: flex; gap: 1rem; flex-wrap: wrap;">
+            <button onclick="runAiInferenceTest('traffic')" class="btn btn-primary" style="background: #0284C7;"><i class="fa-solid fa-car"></i> Test Traffic Model</button>
+            <button onclick="runAiInferenceTest('waste')" class="btn btn-primary" style="background: #10B981;"><i class="fa-solid fa-trash"></i> Test Waste Model</button>
+            <button onclick="runAiInferenceTest('water')" class="btn btn-primary" style="background: #3B82F6;"><i class="fa-solid fa-droplet"></i> Test Water Model</button>
+            <button onclick="runAiInferenceTest('pollution')" class="btn btn-primary" style="background: #A855F7;"><i class="fa-solid fa-wind"></i> Test AQI Model</button>
+          </div>
+        </div>
+
+        <!-- System Audit Logs Table -->
+        <div class="data-table-container">
+          <div style="padding: 1.25rem 1.5rem; border-bottom: 1px solid var(--border-card); font-weight: 700; font-size: 1.1rem; display: flex; justify-content: space-between; align-items: center;">
+            <span><i class="fa-solid fa-shield-cat" style="color: #38BDF8;"></i> Live Security Audit Logs</span>
+            <a href="/admin/audit_logs.html" style="font-size: 0.85rem; color: #38BDF8;">View All Logs &rarr;</a>
+          </div>
+          <table class="data-table">
+            <thead>
+              <tr>
+                <th>Timestamp</th>
+                <th>User / Role</th>
+                <th>Action Method</th>
+                <th>IP Address</th>
+                <th>Response Details</th>
+              </tr>
+            </thead>
+            <tbody id="recentAuditLogsTbody">
+              <tr><td colspan="5" style="text-align: center;">Loading security logs...</td></tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </main>
+  </div>
+
+  <script src="/js/api.js"></script>
+  <script src="/js/auth.js"></script>
+  <script src="/js/admin.js"></script>
+</body>
+</html>

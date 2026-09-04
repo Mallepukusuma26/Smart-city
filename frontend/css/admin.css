@@ -1,0 +1,49 @@
+/* Admin Master Dashboard Theme & Accent Styles */
+:root {
+  --accent-admin: #38BDF8;
+  --accent-admin-bg: rgba(56, 189, 248, 0.1);
+  --accent-admin-border: rgba(56, 189, 248, 0.3);
+}
+
+.admin-portal .nav-item.active a {
+  background: linear-gradient(135deg, rgba(56, 189, 248, 0.2), rgba(168, 85, 247, 0.2));
+  border-left: 4px solid var(--accent-admin);
+  color: #fff;
+}
+
+.admin-kpi-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+  gap: 1.5rem;
+  margin-bottom: 2rem;
+}
+
+.kpi-card {
+  background: rgba(30, 41, 59, 0.7);
+  backdrop-filter: blur(10px);
+  border: 1px solid var(--border-card);
+  border-radius: var(--radius-md);
+  padding: 1.5rem;
+  transition: var(--transition);
+}
+
+.kpi-card:hover {
+  transform: translateY(-3px);
+  border-color: var(--accent-admin);
+  box-shadow: 0 10px 20px rgba(0, 0, 0, 0.3);
+}
+
+.kpi-value {
+  font-size: 2.25rem;
+  font-weight: 800;
+  color: #fff;
+  margin: 0.5rem 0;
+}
+
+.kpi-label {
+  font-size: 0.85rem;
+  color: var(--color-slate-400);
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  font-weight: 600;
+}

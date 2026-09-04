@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Smart City Platform - Citizen Registration</title>
+  <link rel="stylesheet" href="/css/main.css">
+  <link rel="stylesheet" href="/css/components.css">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+  <style>
+    body {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      background: radial-gradient(circle at center, #1E293B 0%, #0F172A 100%);
+      padding: 1rem;
+    }
+    .auth-card {
+      width: 100%;
+      max-width: 480px;
+      background: rgba(30, 41, 59, 0.7);
+      backdrop-filter: blur(16px);
+      border: 1px solid rgba(255, 255, 255, 0.1);
+      border-radius: var(--radius-lg);
+      padding: 2.5rem;
+    }
+  </style>
+</head>
+<body>
+  <div class="auth-card">
+    <div style="text-align: center; margin-bottom: 2rem;">
+      <i class="fa-solid fa-user-plus" style="font-size: 2.5rem; color: #10B981; margin-bottom: 0.5rem;"></i>
+      <h2 style="font-size: 1.5rem; font-weight: 800; color: #fff;">Citizen Account Registration</h2>
+      <p style="font-size: 0.85rem; color: var(--color-slate-400);">Access Smart City Services & Submit Complaints</p>
+    </div>
+
+    <div id="regAlert" class="badge badge-danger" style="display: none; width: 100%; padding: 0.75rem; margin-bottom: 1rem; text-align: center;"></div>
+
+    <form id="registerForm">
+      <div class="form-group">
+        <label class="form-label" for="regFullName">Full Name</label>
+        <input type="text" id="regFullName" class="form-control" placeholder="Jane Doe" required>
+      </div>
+
+      <div class="form-group">
+        <label class="form-label" for="regUsername">Username</label>
+        <input type="text" id="regUsername" class="form-control" placeholder="janedoe" required>
+      </div>
+
+      <div class="form-group">
+        <label class="form-label" for="regEmail">Email Address</label>
+        <input type="email" id="regEmail" class="form-control" placeholder="jane@example.com" required>
+      </div>
+
+      <div class="form-group">
+        <label class="form-label" for="regPassword">Password (Min 8 chars, 1 Upper, 1 Digit)</label>
+        <input type="password" id="regPassword" class="form-control" placeholder="Password123!" required>
+      </div>
+
+      <button type="submit" class="btn btn-primary" style="width: 100%; margin-top: 1rem; background: #10B981; border: none; padding: 0.85rem;">
+        <i class="fa-solid fa-id-card"></i> Create Citizen Profile
+      </button>
+    </form>
+
+    <div style="text-align: center; margin-top: 1.5rem; font-size: 0.9rem; color: var(--color-slate-400);">
+      Already have an account? <a href="/auth/login.html">Sign In Here</a>
+    </div>
+  </div>
+
+  <script src="/js/api.js"></script>
+  <script src="/js/auth.js"></script>
+</body>
+</html>

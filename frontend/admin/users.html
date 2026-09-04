@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html lang="en" class="admin-portal">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Smart City - User Management</title>
+  <link rel="stylesheet" href="/css/main.css">
+  <link rel="stylesheet" href="/css/admin.css">
+  <link rel="stylesheet" href="/css/components.css">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+</head>
+<body>
+  <div class="app-container">
+    <aside class="sidebar">
+      <div class="brand-header">
+        <div class="brand-logo" style="background: linear-gradient(135deg, #38BDF8, #A855F7);"><i class="fa-solid fa-crown"></i></div>
+        <div class="brand-title">Smart City<br><span style="font-size: 0.75rem; color: #38BDF8;">Admin Master</span></div>
+      </div>
+      <ul class="nav-menu">
+        <li class="nav-item"><a href="/admin/dashboard.html"><i class="fa-solid fa-chart-pie"></i> Master Dashboard</a></li>
+        <li class="nav-item active"><a href="/admin/users.html"><i class="fa-solid fa-users-gear"></i> User Management</a></li>
+        <li class="nav-item"><a href="/admin/departments.html"><i class="fa-solid fa-building-user"></i> Departments</a></li>
+        <li class="nav-item"><a href="/admin/ai.html"><i class="fa-solid fa-brain"></i> AI & ML Center</a></li>
+        <li class="nav-item"><a href="/admin/reports.html"><i class="fa-solid fa-file-pdf"></i> System Reports</a></li>
+        <li class="nav-item"><a href="/admin/audit_logs.html"><i class="fa-solid fa-shield-cat"></i> Audit Logs</a></li>
+        <li class="nav-item" style="margin-top: auto;"><a href="#" onclick="handleLogout()"><i class="fa-solid fa-right-from-bracket"></i> Logout</a></li>
+      </ul>
+    </aside>
+
+    <main class="main-content">
+      <header class="top-navbar">
+        <div style="font-weight: 700; font-size: 1.2rem;">User & Role Account Management</div>
+      </header>
+
+      <div class="page-body">
+        <div class="data-table-container">
+          <div style="padding: 1.25rem 1.5rem; border-bottom: 1px solid var(--border-card); font-weight: 700;">
+            Platform Registered Accounts
+          </div>
+          <table class="data-table">
+            <thead>
+              <tr>
+                <th>ID</th>
+                <th>Full Name</th>
+                <th>Username</th>
+                <th>Email</th>
+                <th>Assigned Roles</th>
+                <th>Account Status</th>
+              </tr>
+            </thead>
+            <tbody id="usersTbody">
+              <tr><td colspan="6" style="text-align: center;">Loading users...</td></tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </main>
+  </div>
+  <script src="/js/api.js"></script>
+  <script src="/js/auth.js"></script>
+  <script>
+    document.addEventListener('DOMContentLoaded', async () => {
+      const res = await API.get('/admin/users');
+      const tbody = document.getElementById('usersTbody');
+      if (res.users) {
+        tbody.innerHTML = res.users.map(u => `
+          <tr>
+            <td>${u.id}</td>
+            <td><strong>${u.full_name}</strong></td>
+            <td>${u.username}</td>
+            <td>${u.email}</td>
+            <td>${u.roles.map(r => `<span class="badge ${r === 'ADMIN' ? 'badge-danger' : (r === 'OFFICER' ? 'badge-warning' : 'badge-info')}">${r}</span>`).join(' ')}</td>
+            <td><span class="badge ${u.is_active ? 'badge-success' : 'badge-danger'}">${u.is_active ? 'ACTIVE' : 'DISABLED'}</span></td>
+          </tr>
+        `).join('');
+      }
+    });
+  </script>
+</body>
+</html>

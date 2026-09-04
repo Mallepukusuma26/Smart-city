@@ -1,0 +1,28 @@
+/* Officer Dashboard Theme & Accent Styles */
+:root {
+  --accent-officer: #F59E0B;
+  --accent-officer-bg: rgba(245, 158, 11, 0.1);
+  --accent-officer-border: rgba(245, 158, 11, 0.3);
+}
+
+.officer-portal .nav-item.active a {
+  background: linear-gradient(135deg, rgba(245, 158, 11, 0.2), rgba(99, 102, 241, 0.2));
+  border-left: 4px solid var(--accent-officer);
+  color: #fff;
+}
+
+.officer-command-banner {
+  background: linear-gradient(135deg, rgba(30, 41, 59, 0.9), rgba(120, 53, 15, 0.6));
+  border: 1px solid var(--accent-officer-border);
+  border-radius: var(--radius-lg);
+  padding: 2rem;
+  margin-bottom: 2rem;
+  box-shadow: var(--shadow-lg);
+}
+
+.officer-command-title {
+  font-size: 1.75rem;
+  font-weight: 800;
+  color: #FEF3C7;
+  margin-bottom: 0.5rem;
+}

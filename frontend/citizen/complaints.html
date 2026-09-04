@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html lang="en" class="citizen-portal">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Smart City - My Complaints</title>
+  <link rel="stylesheet" href="/css/main.css">
+  <link rel="stylesheet" href="/css/citizen.css">
+  <link rel="stylesheet" href="/css/components.css">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+</head>
+<body>
+  <div class="app-container">
+    <aside class="sidebar">
+      <div class="brand-header">
+        <div class="brand-logo" style="background: linear-gradient(135deg, #10B981, #06B6D4);"><i class="fa-solid fa-tree-city"></i></div>
+        <div class="brand-title">Smart City<br><span style="font-size: 0.75rem; color: #10B981;">Citizen Portal</span></div>
+      </div>
+      <ul class="nav-menu">
+        <li class="nav-item"><a href="/citizen/dashboard.html"><i class="fa-solid fa-house"></i> Dashboard</a></li>
+        <li class="nav-item active"><a href="/citizen/complaints.html"><i class="fa-solid fa-clipboard-list"></i> My Complaints</a></li>
+        <li class="nav-item"><a href="/citizen/services.html"><i class="fa-solid fa-city"></i> City Services</a></li>
+        <li class="nav-item"><a href="/citizen/notifications.html"><i class="fa-solid fa-bell"></i> Notifications</a></li>
+        <li class="nav-item"><a href="/citizen/alerts.html"><i class="fa-solid fa-triangle-exclamation"></i> City Alerts</a></li>
+        <li class="nav-item" style="margin-top: auto;"><a href="#" onclick="handleLogout()"><i class="fa-solid fa-right-from-bracket"></i> Logout</a></li>
+      </ul>
+    </aside>
+
+    <main class="main-content">
+      <header class="top-navbar">
+        <div style="font-weight: 700; font-size: 1.2rem;">My Tracked Complaints</div>
+        <a href="/citizen/dashboard.html" class="btn btn-primary" style="background: #10B981; border: none;">+ New Complaint</a>
+      </header>
+
+      <div class="page-body">
+        <div class="data-table-container">
+          <div style="padding: 1.25rem 1.5rem; border-bottom: 1px solid var(--border-card); font-weight: 700; font-size: 1.1rem;">
+            Complaint Lifecycle & Officer Status
+          </div>
+          <table class="data-table">
+            <thead>
+              <tr>
+                <th>Ticket #</th>
+                <th>Title</th>
+                <th>Priority</th>
+                <th>Assigned Officer</th>
+                <th>Status</th>
+                <th>SLA Due Date</th>
+              </tr>
+            </thead>
+            <tbody id="fullComplaintsTable">
+              <tr><td colspan="6" style="text-align: center;">Loading...</td></tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </main>
+  </div>
+  <script src="/js/api.js"></script>
+  <script src="/js/auth.js"></script>
+  <script>
+    document.addEventListener('DOMContentLoaded', async () => {
+      const res = await API.get('/citizen/complaints');
+      const table = document.getElementById('fullComplaintsTable');
+      if (res.complaints) {
+        table.innerHTML = res.complaints.map(c => `
+          <tr>
+            <td><strong>${c.ticket_number}</strong></td>
+            <td>${c.title}</td>
+            <td><span class="badge ${c.priority === 'HIGH' || c.priority === 'CRITICAL' ? 'badge-danger' : 'badge-info'}">${c.priority}</span></td>
+            <td>${c.assigned_officer_name}</td>
+            <td><span class="badge ${c.status === 'RESOLVED' ? 'badge-success' : 'badge-warning'}">${c.status}</span></td>
+            <td>${c.sla_due_date ? c.sla_due_date.split('T')[0] : 'N/A'}</td>
+          </tr>
+        `).join('');
+      }
+    });
+  </script>
+</body>
+</html>
