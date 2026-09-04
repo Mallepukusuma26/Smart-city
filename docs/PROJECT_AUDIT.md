@@ -30,7 +30,7 @@ This audit documents the complete system inspection, discovered issues, applied 
 
 ### 2.2 Security & RBAC Audit
 - **Zero API Key Policy**: Verified zero cloud API dependencies (No OpenAI, Gemini, Claude, Google Maps, or external paid services).
-- **Credentials Protection**: Password hashing via PBKDF2/scrypt (`backend/app/security/password.py`), JWT token generation (`backend/app/security/tokens.py`), and `.env.example` created.
+- **Credentials Protection**: Password hashing via PBKDF2/scrypt (`backend/app/security/password.py`), JWT token generation (`backend/app/security/tokens.py`), and zero env files committed.
 
 ### 2.3 Local Machine Learning Audit
 - All 10 ML models trained locally and saved to `backend/trained_models/`:

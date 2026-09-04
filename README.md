@@ -172,6 +172,6 @@ Smart City/
 ├── requirements-lock.txt
 ├── Dockerfile
 ├── pytest.ini
-├── .env.example
 └── README.md
+
 ```
